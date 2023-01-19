@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API DATA</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<style>
+    *{
+        margin:0px;
+        padding: 0px;
+    }
+    body{
+        background-color: black;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .container{
+        width: 80%;
+        margin: 20px auto 0px;
+     
+    }
+    .getbtn-container{
+        text-align: center;
+    }
+    .getdata{
+        padding: 15px 30px;
+        font-size: 20px;
+        border-radius: 10px;
+        background-color: #dd3322;
+        color: #ffffff;
+        cursor: pointer;
+    }
+    .data-container{
+        margin-top: 50px;
+        display: grid;
+        column-gap: 20px;
+        row-gap: 20px;
+        grid-template-columns: 50% 50%;
+        flex: 1fr 1fr;
+        color: #ffffff;
+    }
+    .data-container .title{
+        text-align: center;
+        margin-bottom: 30px;
+        text-decoration: underline;
+    }
+    .photos{
+        padding: 20px;
+    }
+    .sphotos{
+        width: 100%;
+        height: auto;
+    }
+    .posts{
+        color:#ffffff;
+        border-left: 1px dotted #dd3322;
+        padding: 20px;
+    }
+    .cpost{
+        border-bottom: 1px solid #dd3322;
+        margin-bottom: 15px;
+    }
+    @media screen and (max-width:760px) {
+        .data-container{
+        
+        grid-template-columns: 100%;
+        
+    }
+    .posts{
+        
+        border-left: 0px;
+    }
+    }
+
+</style>
+<body>
+    <div class="container">
+        <div class="getbtn-container">
+            <button class="getdata" id="getdata">Get Data</button>
+        </div>
+        <div class="data-container">
+            <div class="photos">
+                <h1 class="title">Photos</h1>
+   
+            </div>
+            <div class="posts">
+                <h1 class="title">Posts</h1>
+            </div>
+        </div>
+    </div>
+   
+    <script>
+        $("#getdata").click(function(){
+            $(this).text("Loading...");
+            $(this).prop("disabled", true);
+            $.get("https://jsonplaceholder.typicode.com/photos", function(data){
+                data.forEach(element => {
+                    $(".photos").append('<img src="'+element.url+'" class="sphotos" alt="'+element.title+'">')
+                });
+                
+                $(this).text("Get Data");
+            });
+            $.get("https://jsonplaceholder.typicode.com/posts", function(posts){
+                posts.forEach(post => {
+                    console.log(post);
+                    $(".posts").append(`<div class="cpost">`+
+                        `<h2 class="post-title">`+post.title+`</h2>`+
+                        `<p class="post-description">`+post.body+`</p>
+                        </div>`);
+                });
+                $(this).text("Get Data");
+                
+            });
+        });
+    </script>
+</body>
+</html>
